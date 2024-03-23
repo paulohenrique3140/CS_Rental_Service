@@ -2,7 +2,7 @@ using System;
 
 namespace CS_Rental_Service.Entities
 {
-    class Car
+    internal class Car
     {
         public string LicensePlate { get; set; }
         public string Model { get; set; }
