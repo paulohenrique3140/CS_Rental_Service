@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using CS_Rental_Service.Entities.Enums;
+using CS_Rental_Service.Entities.Rentals;
 using CS_Rental_Service.Entities;
 
 namespace CS_Rental_Service.Entities.Clients
