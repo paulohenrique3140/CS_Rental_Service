@@ -12,6 +12,9 @@ namespace CS_Rental_Service.Entities.Registers
     class Client_Register : Register
     {
         public List<Client> ClientList { get; set; }
+
+        public Client_Register()
+        {}
         public Client_Register(string registerType) : base(registerType)
         {
             ClientList = new List<Client>();
@@ -60,17 +63,7 @@ namespace CS_Rental_Service.Entities.Registers
             return findedCompanyClient;
         }
 
-        public void AddContract(Rental rental)
-        {
-            Client clientToAddContract = findById(rental.ClientId, rental.Type.ToString());
-            clientToAddContract.Contracts.Add(rental);
-                        
-            Car findedCar = new Car();
-            findedCar = auxCar.FindByLicensePlate(rental.CarLicensePlate);
-            findedCar.Availability = false;
-            
-            UpdateContractStatus(rental.ContractNumber, ContractStatus.Open, rental.Type);
-        }
+        
 
         public Rental findContract(int contractNumber, string type)
         {

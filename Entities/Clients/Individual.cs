@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using CS_Rental_Service.Entities.Enums;
+using CS_Rental_Service.Entities.Registers;
+using CS_Rental_Service.Entities.Rentals;
 
 namespace CS_Rental_Service.Entities.Clients
 {
@@ -10,13 +13,44 @@ namespace CS_Rental_Service.Entities.Clients
         public int LoyaltyPoints { get; set; }
 
         public Individual()
-        {}
+        { }
 
         public Individual(int id, string phonne, string email, string cpf, string name, int loyaltyPoints) : base(id, phonne, email)
         {
             Cpf = cpf;
             Name = name;
             LoyaltyPoints = loyaltyPoints;
+        }
+        Car_Register auxRegister = new Car_Register();
+        Car auxCar = new Car();
+
+
+        public override void AddContract(Rental rental)
+        {
+            base.AddContract(rental);
+            
+            auxCar = auxRegister.FindByLicensePlate(rental.CarLicensePlate);
+
+            switch (auxCar.Category)
+            {
+                case CarCategory.Economic:
+                    LoyaltyPoints += 20;
+                    break;
+                case CarCategory.Intermediary:
+                    LoyaltyPoints += 35;
+                    break;
+                case CarCategory.Special:
+                    LoyaltyPoints += 50;
+                    break;
+                case CarCategory.Suv:
+                    LoyaltyPoints += 80;
+                    break;
+                case CarCategory.Executive:
+                    LoyaltyPoints += 100;
+                    break;
+                default:
+                    break;
+            }
         }
 
         public override string ToString()

@@ -1,4 +1,5 @@
 using System;
+using CS_Rental_Service.Entities.Enums;
 
 namespace CS_Rental_Service.Entities
 {
@@ -6,14 +7,14 @@ namespace CS_Rental_Service.Entities
     {
         public string LicensePlate { get; set; }
         public string Model { get; set; }
-        public string Category { get; set; }
+        public CarCategory Category { get; set; }
         public double Rate { get; set; }
         public bool Availability { get; set; }
 
         public Car()
         {}
 
-        public Car(string licensePlate, string model, string category, double rate, bool availability)
+        public Car(string licensePlate, string model, CarCategory category, double rate, bool availability)
         {
             LicensePlate = licensePlate;
             Model = model;
