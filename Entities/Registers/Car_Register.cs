@@ -33,7 +33,7 @@ namespace CS_Rental_Service.Entities.Registers
 
         public Car FindByLicensePlate(string licensePlate){
             Car findedCar = new Car();
-            foreach(Car car in CarList)
+            foreach(Car car in CarList) // fix
             {
                 if (car.LicensePlate == licensePlate){
                     findedCar = car;

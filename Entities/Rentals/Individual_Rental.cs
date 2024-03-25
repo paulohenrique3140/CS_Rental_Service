@@ -10,25 +10,22 @@ namespace CS_Rental_Service.Entities.Rentals
 {
      class Individual_Rental : Rental
     {
-        
         public double SecurityDeposit { get; set; }
         
         public Individual_Rental()
         {}
 
 
-        public Individual_Rental(int contractNumber, string carLicensePlate, int clientId, DateTime contractDate, DateTime pickUp, DateTime returnCar, FOP formOfPayment, ContractStatus status, ContractType type, double secutiryDeposit) : base(contractNumber, carLicensePlate, clientId, contractDate, pickUp, returnCar, formOfPayment, status, type)
+        public Individual_Rental(int contractNumber, ContractType type, string carLicensePlate, int clientId, DateTime contractDate, DateTime pickUp, DateTime returnCar, FOP formOfPayment, ContractStatus status, Car_Register registerCar, double secutiryDeposit) : base(contractNumber,type, carLicensePlate, clientId, contractDate, pickUp, returnCar, formOfPayment, status, registerCar)
         {
             SecurityDeposit = secutiryDeposit;
         }
-
-        Car_Register auxRegister = new Car_Register();         
 
         public int IndividualTax()
         {
             int tax = 10;
 
-            if(auxRegister.FindByLicensePlate(CarLicensePlate).Category == CarCategory.Economic || auxRegister.FindByLicensePlate(CarLicensePlate).Category == CarCategory.Intermediary)
+            if(RegisterCar.FindByLicensePlate(CarLicensePlate).Category == CarCategory.Economic || RegisterCar.FindByLicensePlate(CarLicensePlate).Category == CarCategory.Intermediary)
             {
                 tax = 15;
             }
@@ -37,14 +34,14 @@ namespace CS_Rental_Service.Entities.Rentals
         }
         public override double TotalValue()
         {
-            double total = auxRegister.FindByLicensePlate(CarLicensePlate).Rate * CheckPeriod();
+            double total = RegisterCar.FindByLicensePlate(CarLicensePlate).Rate * CheckPeriod(); // fix
             return  total + (total * IndividualTax() / 100);
         }
 
         public override string ToString()
         {
             return base.ToString()
-                 + "\nSecutiry Depoist: $ " + SecurityDeposit;
+                 + "Secutiry Depoist: $ " + SecurityDeposit;
         }
     }
 }

@@ -24,20 +24,8 @@ namespace CS_Rental_Service.Entities.Clients
             Email = email;
             Contracts = new List<Rental>();
         }
-        Client_Register auxRegister = new Client_Register();
-        Car_Register auxCar = new Car_Register();
-        public virtual void AddContract(Rental rental)
-        {
-            Client clientToAddContract = auxRegister.findById(rental.ClientId, rental.Type.ToString());
-            clientToAddContract.Contracts.Add(rental);
-
-            
-            Car findedCar = new Car();
-            findedCar = auxCar.FindByLicensePlate(rental.CarLicensePlate);
-            findedCar.Availability = false;
-            
-            auxRegister.UpdateContractStatus(rental.ContractNumber, ContractStatus.Open, rental.Type);
-        }
+        
+        public abstract void AddContract(Rental rental, Client_Register client_register, Car_Register car_register);
 
         public override string ToString()
         {

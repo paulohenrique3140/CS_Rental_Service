@@ -21,17 +21,22 @@ namespace CS_Rental_Service.Entities.Clients
             Name = name;
             LoyaltyPoints = loyaltyPoints;
         }
-        Car_Register auxRegister = new Car_Register();
+        
         Car auxCar = new Car();
 
-
-        public override void AddContract(Rental rental)
+        public override void AddContract(Rental rental, Client_Register client_register, Car_Register car_register)
         {
-            base.AddContract(rental);
-            
-            auxCar = auxRegister.FindByLicensePlate(rental.CarLicensePlate);
+            Client clientToAddContract = client_register.findById(rental.ClientId, rental.Type.ToString());
+            clientToAddContract.Contracts.Add(rental);
 
-            switch (auxCar.Category)
+            
+            Car findedCar = new Car();
+            findedCar = car_register.FindByLicensePlate(rental.CarLicensePlate);
+            findedCar.Availability = false;
+            
+            client_register.UpdateContractStatus(rental.ContractNumber, ContractStatus.Open, rental.Type);
+            
+            switch (findedCar.Category)
             {
                 case CarCategory.Economic:
                     LoyaltyPoints += 20;

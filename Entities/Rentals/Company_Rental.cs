@@ -16,19 +16,18 @@ namespace CS_Rental_Service.Entities.Rentals
         public Company_Rental()
         {}
 
-        public Company_Rental(int contractNumber, string carLicensePlate, int clientId, DateTime contractDate, DateTime pickUp, DateTime returnCar, FOP formOfPayment, ContractStatus status, ContractType type, string agreement, string aproover, int request) : base(contractNumber, carLicensePlate, clientId, contractDate, pickUp, returnCar, formOfPayment, status, type)
+        public Company_Rental(int contractNumber, ContractType type, string carLicensePlate, int clientId, DateTime contractDate, DateTime pickUp, DateTime returnCar, FOP formOfPayment, ContractStatus status, Car_Register registerCar, string agreement, string aproover, int request) : base(contractNumber, type, carLicensePlate, clientId, contractDate, pickUp, returnCar, formOfPayment, status, registerCar)
         {
             Agreement = agreement;
             Aproover = aproover;
             Request = request;
         }
-         Car_Register auxRegister = new Car_Register();
 
         public int CompanyDiscount()
         {
             int discount = 10;
 
-            if(auxRegister.FindByLicensePlate(CarLicensePlate).Category == CarCategory.Economic || auxRegister.FindByLicensePlate(CarLicensePlate).Category == CarCategory.Intermediary)
+            if(RegisterCar.FindByLicensePlate(CarLicensePlate).Category == CarCategory.Economic || RegisterCar.FindByLicensePlate(CarLicensePlate).Category == CarCategory.Intermediary)
             {
                 discount = 5;
             }
@@ -38,7 +37,7 @@ namespace CS_Rental_Service.Entities.Rentals
         
         public override double TotalValue()
         {            
-            double total = auxRegister.FindByLicensePlate(CarLicensePlate).Rate * CheckPeriod();
+            double total = RegisterCar.FindByLicensePlate(CarLicensePlate).Rate * CheckPeriod();
             return total - (total * CompanyDiscount() / 100);
         }
 
