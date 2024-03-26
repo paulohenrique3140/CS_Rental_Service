@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using CS_Rental_Service.Entities.Enums;
@@ -46,7 +47,8 @@ namespace CS_Rental_Service.Entities.Rentals
             return base.ToString()
                  + "\nAgreement: " + Agreement
                  + "\nAproover: " + Aproover
-                 + "\nRequest: " + Request;
+                 + "\nRequest: " + Request
+                 + "\nTotal: $ " + TotalValue().ToString("F2", CultureInfo.InvariantCulture);
         }
     }
 }

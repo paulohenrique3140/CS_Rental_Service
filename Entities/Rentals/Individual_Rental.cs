@@ -41,7 +41,8 @@ namespace CS_Rental_Service.Entities.Rentals
         public override string ToString()
         {
             return base.ToString()
-                 + "Secutiry Depoist: $ " + SecurityDeposit;
+                 + "Secutiry Depoist: $ " + SecurityDeposit
+                 + "\nTotal: $ " + TotalValue().ToString("F2", CultureInfo.InvariantCulture);
         }
     }
 }

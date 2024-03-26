@@ -6,6 +6,7 @@ using CS_Rental_Service.Entities.Clients;
 using CS_Rental_Service.Entities.Rentals;
 using CS_Rental_Service.Entities.Registers;
 using CS_Rental_Service.Entities;
+using System.Text;
 
 namespace CS_Rental_Service.Entities.Registers
 {
@@ -20,55 +21,42 @@ namespace CS_Rental_Service.Entities.Registers
             ClientList = new List<Client>();
         }
 
-        Car_Register auxCar = new Car_Register();
-
+        
         public void AddClient(Client client)
         {
             ClientList.Add(client);
         }
 
-        public void RemoveClient(int id, string type)
+        public void RemoveClient(int id, ContractType type)
         {
             ClientList.Remove(findById(id, type));
         }
 
-        public Client findById(int id, string type)
+        public Client findById(int id, ContractType type)
         {
-            Client findedIndividualClient = new Individual();
-            Client findedCompanyClient = new Company();
-            
-            if (type == "Individual")
-            {
-                foreach(Client client in ClientList)
+           Client findedClient = new Individual();
+
+           foreach(Client client in ClientList)
+           {
+             if(client.Id == id)
+             {
+                if(type == ContractType.Individual)
                 {
-                    if(client.Id == id)
-                    {
-                        if (type == "Individual")
-                        {
-                            findedIndividualClient = client;
-                        }
-                        else
-                        {
-                            findedCompanyClient = client;
-                        }
-                    }
+                    findedClient = client;
                 }
-            }
-
-            if (type == "Individual")
-            {
-                return findedIndividualClient;
-            }
-
-            return findedCompanyClient;
+                else 
+                {
+                    findedClient = (Company)client;
+                }
+             }
+           }
+           return findedClient;
         }
+      
 
-        
-
-        public Rental findContract(int contractNumber, string type)
+        public Rental findContract(int contractNumber, ContractType type)
         {
-            Rental findedCompanyRental = new Company_Rental();
-            Rental findedIndividualRental = new Individual_Rental();
+            Rental findedRental = new Individual_Rental();
 
             foreach(Client client in ClientList)
             {
@@ -76,45 +64,43 @@ namespace CS_Rental_Service.Entities.Registers
                 {
                     if(rental.ContractNumber == contractNumber)
                     {
-                        if (type == "Company") {
-                            findedCompanyRental = rental;
-                        } 
+                        if(type == ContractType.Individual)
+                        {
+                            findedRental = rental;
+                        }
                         else
                         {
-                            findedIndividualRental = rental;
+                            findedRental = (Company_Rental)rental;
                         }
                     }
                 }
             }
-
-            if (type == "Individual")
-            {
-                return findedIndividualRental;
-            }
-
-            return findedCompanyRental;
+            return findedRental;
         }
 
         public void UpdateContractStatus(int contractNumber, ContractStatus newStatus, ContractType type)
         {
-            Rental findedContract = findContract(contractNumber, type.ToString());
-            findedContract.Status = newStatus;
+            findContract(contractNumber, type).Status = newStatus;
         }
 
-        public void ReturnCar(int contractNumber, ContractType type)
+        public void ReturnCar(int contractNumber, ContractType type, Car_Register car_register)
         {
-            Rental findedContract = findContract(contractNumber, type.ToString());
-            findedContract.Status = ContractStatus.Closed;
+            
+            findContract(contractNumber, type).Status = ContractStatus.Closed;
 
-            Car findedCar = new Car();
-            findedCar = auxCar.FindByLicensePlate(findedContract.CarLicensePlate);
-            findedCar.Availability = true;
+            car_register.FindByLicensePlate(findContract(contractNumber, type).CarLicensePlate).Availability = true;
         }
 
 
         public override string ToString()
         {
-            return base.ToString();
+            StringBuilder sb = new StringBuilder();
+            foreach(Client client in ClientList)
+            {
+                sb.AppendLine(client.ToString());
+            }
+            return base.ToString()
+                  + "\n" + sb.ToString();
         }
     }
 }

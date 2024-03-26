@@ -5,6 +5,7 @@ using CS_Rental_Service.Entities.Exceptions;
 using CS_Rental_Service.Entities.Clients;
 using CS_Rental_Service.Entities.Rentals;
 using CS_Rental_Service.Entities;
+using System.Text;
 
 
 namespace CS_Rental_Service.Entities.Registers
@@ -57,8 +58,13 @@ namespace CS_Rental_Service.Entities.Registers
 
         public override string ToString()
         {
+            StringBuilder sb = new StringBuilder();
+            foreach(Car car in CarList)
+            {
+                sb.AppendLine(car.ToString());
+            }
             return base.ToString()
-                  + "\nCar List: " + CarList;
+                  + "\n" + sb.ToString();
         }
     }
 }

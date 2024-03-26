@@ -22,15 +22,7 @@ namespace CS_Rental_Service.Entities.Clients
 
         public override void AddContract(Rental rental, Client_Register client_register, Car_Register car_register)
         {
-            Client clientToAddContract = client_register.findById(rental.ClientId, rental.Type.ToString());
-            clientToAddContract.Contracts.Add(rental);
-
-            
-            Car findedCar = new Car();
-            findedCar = car_register.FindByLicensePlate(rental.CarLicensePlate);
-            findedCar.Availability = false;
-            
-            client_register.UpdateContractStatus(rental.ContractNumber, ContractStatus.Open, rental.Type);
+            base.AddContract(rental, client_register, car_register);
         }
 
         public override string ToString()
