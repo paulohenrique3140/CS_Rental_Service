@@ -10,10 +10,31 @@ using CS_Rental_Service.Entities.Registers;
 
 namespace CS_Rental_Service
 {
-        internal class Program
+        class Program
         {
                 private static void Main(string[] args)
                 {
+
+                        try
+                        {
+                                
+                        }
+                        catch (DomainException e)
+                        {
+                                Console.WriteLine("Error! " + e.Message);
+                        }
+                        catch (FormatException)
+                        {
+                                Console.WriteLine("Error! You entered the incorrect data type for the requested field. Please try again.");
+                        }
+                        catch (SystemException e)
+                        {
+                                Console.WriteLine("Error! " + e.Message);
+                        }
+
+
+                        /*
+                        // instances
                         Car_Register carRegister = new Car_Register("Car");
                         Client_Register clientRegister = new Client_Register("Client");
                         Individual individual = new Individual();
@@ -30,9 +51,11 @@ namespace CS_Rental_Service
                         Console.WriteLine(cclient);
                         clientRegister.AddClient(cclient);
 
+                        // Find client by ID
                         Console.WriteLine();
                         Console.WriteLine(clientRegister.findById(24, ContractType.Individual));
 
+                        // Find client by ID
                         Console.WriteLine();
                         Console.WriteLine(clientRegister.findById(25, ContractType.Company));
 
@@ -54,6 +77,7 @@ namespace CS_Rental_Service
                         Console.WriteLine(car3);
                         carRegister.AddCar(car3);
 
+                        // Tests with DateTime (ParseExact)
                         DateTime pickup = DateTime.ParseExact("28/03/2024", "dd/MM/yyyy",
                 CultureInfo.InvariantCulture);
                         DateTime returnCar = DateTime.ParseExact("30/03/2024", "dd/MM/yyyy",
@@ -69,6 +93,7 @@ namespace CS_Rental_Service
                         DateTime returnCar3 = DateTime.ParseExact("15/05/2024", "dd/MM/yyyy",
                 CultureInfo.InvariantCulture);
 
+                        // Tests with Rental create                        
                         Rental rental = new Individual_Rental(1, ContractType.Individual, car.LicensePlate, iclient.Id, DateTime.Now, pickup, returnCar, FOP.CreditCard, ContractStatus.Open, carRegister, 1000.00);
                         individual.AddContract(rental, clientRegister, carRegister);
                         Console.WriteLine();
@@ -84,51 +109,59 @@ namespace CS_Rental_Service
                         Console.WriteLine();
                         Console.WriteLine(rentalTwo);
                         
+                        // Printing clients
                         Console.WriteLine();
                         Console.WriteLine(iclient);
                         Console.WriteLine(cclient);
 
+                        // Printing cars
                         Console.WriteLine();
                         Console.WriteLine(car);
                         Console.WriteLine(car2);
                         Console.WriteLine(car3);
 
+                        // Test findContract
                         Console.WriteLine();
                         Console.WriteLine(clientRegister.findContract(1, ContractType.Individual));
                         Console.WriteLine(clientRegister.findContract(2, ContractType.Company));
                         Console.WriteLine(clientRegister.findContract(3, ContractType.Individual));
 
+                        // Returning cars tests
                         Console.WriteLine("Returning tests");
                         clientRegister.ReturnCar(3, ContractType.Individual, carRegister);
                         Console.WriteLine(rentalTwo);
                         Console.WriteLine(car3);
                         Console.WriteLine(iclient + "\nContract List: \n" + iclient.GetClientContracts());
 
+                        // show car list
                         Console.WriteLine();
                         Console.WriteLine("Car list");
                         Console.WriteLine(carRegister);
 
+                        // show client list
                         Console.WriteLine();
                         Console.WriteLine("Client list");
                         Console.WriteLine(clientRegister);
 
+                        // find by model
                         Console.WriteLine();
                         Console.WriteLine("Find by model");
                         Console.WriteLine(carRegister.FindByModel("Ford Ka"));
 
+                        // remove client and show client list
                         Console.WriteLine();
                         Console.WriteLine("Remove client");
                         clientRegister.RemoveClient(24, ContractType.Individual);
                         Console.WriteLine("Client list");
                         Console.WriteLine(clientRegister);
 
+                        // remove car and show car list
                         Console.WriteLine();
                         Console.WriteLine("Remove car");
                         carRegister.RemoveCar("EFG7878");
                         Console.WriteLine("Car list");
-                        Console.WriteLine(carRegister);
-
-                        
+                        Console.WriteLine(carRegister);  
+                        */
                 }
         }
 }

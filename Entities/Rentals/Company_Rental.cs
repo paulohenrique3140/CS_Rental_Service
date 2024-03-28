@@ -17,7 +17,7 @@ namespace CS_Rental_Service.Entities.Rentals
         public Company_Rental()
         {}
 
-        public Company_Rental(int contractNumber, ContractType type, string carLicensePlate, int clientId, DateTime contractDate, DateTime pickUp, DateTime returnCar, FOP formOfPayment, ContractStatus status, Car_Register registerCar, string agreement, string aproover, int request) : base(contractNumber, type, carLicensePlate, clientId, contractDate, pickUp, returnCar, formOfPayment, status, registerCar)
+        public Company_Rental(int contractNumber, ContractType type, string carLicensePlate, int clientId, DateTime contractDate, DateTime pickUp, DateTime returnCar, FOP formOfPayment, ContractStatus status, Car_Register registerCar, Client_Register clientRegister, string agreement, string aproover, int request) : base(contractNumber, type, carLicensePlate, clientId, contractDate, pickUp, returnCar, formOfPayment, status, registerCar, clientRegister)
         {
             Agreement = agreement;
             Aproover = aproover;
@@ -45,7 +45,7 @@ namespace CS_Rental_Service.Entities.Rentals
         public override string ToString()
         {
             return base.ToString()
-                 + "\nAgreement: " + Agreement
+                 + "Agreement: " + Agreement
                  + "\nAproover: " + Aproover
                  + "\nRequest: " + Request
                  + "\nTotal: $ " + TotalValue().ToString("F2", CultureInfo.InvariantCulture);

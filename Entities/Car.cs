@@ -1,5 +1,6 @@
 using System;
 using CS_Rental_Service.Entities.Enums;
+using CS_Rental_Service.Entities.Exceptions;
 
 namespace CS_Rental_Service.Entities
 {
@@ -16,6 +17,10 @@ namespace CS_Rental_Service.Entities
 
         public Car(string licensePlate, string model, CarCategory category, double rate, bool availability)
         {
+            if (licensePlate.Length != 7)
+            {
+                throw new DomainException("The vehicle license plate field must have 7 characters. Please try again");
+            }
             LicensePlate = licensePlate;
             Model = model;
             Category = category;

@@ -16,7 +16,7 @@ namespace CS_Rental_Service.Entities.Rentals
         {}
 
 
-        public Individual_Rental(int contractNumber, ContractType type, string carLicensePlate, int clientId, DateTime contractDate, DateTime pickUp, DateTime returnCar, FOP formOfPayment, ContractStatus status, Car_Register registerCar, double secutiryDeposit) : base(contractNumber,type, carLicensePlate, clientId, contractDate, pickUp, returnCar, formOfPayment, status, registerCar)
+        public Individual_Rental(int contractNumber, ContractType type, string carLicensePlate, int clientId, DateTime contractDate, DateTime pickUp, DateTime returnCar, FOP formOfPayment, ContractStatus status, Car_Register registerCar, Client_Register clientRegister, double secutiryDeposit) : base(contractNumber,type, carLicensePlate, clientId, contractDate, pickUp, returnCar, formOfPayment, status, registerCar, clientRegister)
         {
             SecurityDeposit = secutiryDeposit;
         }
@@ -34,7 +34,7 @@ namespace CS_Rental_Service.Entities.Rentals
         }
         public override double TotalValue()
         {
-            double total = RegisterCar.FindByLicensePlate(CarLicensePlate).Rate * CheckPeriod(); // fix
+            double total = RegisterCar.FindByLicensePlate(CarLicensePlate).Rate * CheckPeriod();
             return  total + (total * IndividualTax() / 100);
         }
 

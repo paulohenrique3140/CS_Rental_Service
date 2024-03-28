@@ -50,6 +50,10 @@ namespace CS_Rental_Service.Entities.Registers
                 }
              }
            }
+           if (findedClient.Id == 0)
+           {
+            throw new DomainException("The customer with the entered ID was not found. Please try again!");
+           }
            return findedClient;
         }
       
@@ -75,7 +79,27 @@ namespace CS_Rental_Service.Entities.Registers
                     }
                 }
             }
+
+            if (findedRental.CarLicensePlate is null)
+            {
+                throw new DomainException("Could not find a contract with the provided number! Please try again");
+            }
             return findedRental;
+        }
+
+        public bool IsThereAContract(int contractNumber)
+        {
+            foreach(Client client in ClientList)
+            {
+                foreach(Rental rental in client.Contracts)
+                {
+                    if(rental.ContractNumber == contractNumber)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         public void UpdateContractStatus(int contractNumber, ContractStatus newStatus, ContractType type)

@@ -6,6 +6,7 @@ using CS_Rental_Service.Entities.Clients;
 using CS_Rental_Service.Entities.Rentals;
 using CS_Rental_Service.Entities;
 using System.Text;
+using System.Data.Common;
 
 
 namespace CS_Rental_Service.Entities.Registers
@@ -34,11 +35,15 @@ namespace CS_Rental_Service.Entities.Registers
 
         public Car FindByLicensePlate(string licensePlate){
             Car findedCar = new Car();
-            foreach(Car car in CarList) // fix
+            foreach(Car car in CarList) 
             {
                 if (car.LicensePlate == licensePlate){
                     findedCar = car;
                 }
+            }
+            if(findedCar.LicensePlate is null)
+            {
+                throw new DomainException("Car not found. Please try again");
             }
             return findedCar;
         }
@@ -52,6 +57,11 @@ namespace CS_Rental_Service.Entities.Registers
                 {
                     findedCar = car;
                 }
+            }
+
+            if(findedCar.Model is null)
+            {
+                throw new DomainException("Car not found. Please try again");
             }
             return findedCar;
         }
