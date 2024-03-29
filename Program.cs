@@ -71,7 +71,7 @@ namespace CS_Rental_Service
                                                                 string cnpj = Console.ReadLine();
                                                                 companyClient = new Company(id, name, phonne, email, clientRegister, cnpj);
                                                                 clientRegister.AddClient(companyClient);
-                                                                Console.WriteLine(clientRegister);
+                                                                Console.WriteLine($"User successfully added. \n{companyClient}");
                                                         }
                                                         else
                                                         {
@@ -79,7 +79,7 @@ namespace CS_Rental_Service
                                                                 string cpf = Console.ReadLine();
                                                                 individualClient = new Individual(id, name, phonne, email, clientRegister, cpf);
                                                                 clientRegister.AddClient(individualClient);
-                                                                Console.WriteLine(clientRegister);
+                                                                Console.WriteLine($"User successfully added. \n{individualClient}");
                                                         }
                                                         break;
 
@@ -98,6 +98,7 @@ namespace CS_Rental_Service
                                                         {
                                                                 clientRegister.RemoveClient(idRemoval, ContractType.Individual);
                                                         }
+                                                        Console.Write("\nCar removed!");
                                                         break;
 
                                                 case 3:
@@ -120,6 +121,8 @@ namespace CS_Rental_Service
                                                         Console.WriteLine("\n### CLIENT LIST ###");
                                                         Console.WriteLine("\n" + clientRegister);
                                                         break;
+                                                default:
+                                                        break;
                                         }
 
                                 } while (clientMenuOption != 0);
@@ -130,7 +133,7 @@ namespace CS_Rental_Service
                                 {
                                     Console.WriteLine("\n####### CAR SESSION #######");
                                     Console.WriteLine("\nMenu:");
-                                    Console.Write("\n[1] Car Registration\n[2] Car Removal\n[3] Car search by ID\n[4] Car Seach by Model\n[5] Show Car List\n[0] Return to main menu");
+                                    Console.Write("\n[1] Car Registration\n[2] Car Removal\n[3] Car search by License Plate\n[4] Car Seach by Model\n[5] Show Car List\n[0] Return to main menu");
                                     Console.Write("\n\nChoose an option: ");
                                     carMenuOption = int.Parse(Console.ReadLine());
                                     carMenuOption = ValidateOption(carMenuOption, 5);
@@ -140,19 +143,64 @@ namespace CS_Rental_Service
                                         case 1:
                                                 Console.WriteLine("\n### CAR REGISTRATION ###");
                                                 Console.Write("\nCar License Plate: ");
-                                                string licensePlate = Console.ReadLine();
+                                                string licensePlate = Console.ReadLine().ToUpper();
                                                 Console.Write("\nModel: ");
                                                 string model = Console.ReadLine();
                                                 Console.Write("\nCategory [Economic / Intermediary / Special / SUV / Excutive]: ");
-                                                CarCategory category = Enum.Parse<CarCategory>(Console.ReadLine());
+                                                string cat = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Console.ReadLine());
+                                                CarCategory category = Enum.Parse<CarCategory>(cat);
                                                 Console.Write("\nRate: ");
                                                 double rate = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
                                                 car = new Car(licensePlate, model, category, rate, true);
                                                 carRegister.AddCar(car);
+                                                Console.WriteLine($"Car successfully added. \n{car}");
+                                                break;
+                                        case 2:
+                                                Console.WriteLine("\n### CAR REMOVAL ###");
+                                                Console.Write("\nEnter the License Plate to remove: ");
+                                                string licenseToRemove = Console.ReadLine();
+                                                carRegister.RemoveCar(licenseToRemove);
+                                                Console.WriteLine("\nCar removed!");
+                                                break;
+                                        case 3:
+                                                Console.WriteLine("\n### CAR SEARCH BY LICENCE PLATE ###");
+                                                Console.Write("\nEnter the License Plate to find a car: ");
+                                                string licensePlateToSearch = Console.ReadLine();
+                                                Console.WriteLine(carRegister.FindByLicensePlate(licensePlateToSearch));
+                                                break;
+                                        case 4:
+                                                Console.WriteLine("\n### CAR SEARCH BY MODEL ###");
+                                                Console.Write("\nEnter the Model to find a car: ");
+                                                string modelSearch = Console.ReadLine();
+                                                Console.WriteLine(carRegister.FindByModel(modelSearch));
+                                                break;
+                                        case 5:
+                                                Console.WriteLine("\n### CAR LIST ###");
+                                                Console.Write("\n" + carRegister);
+                                                break;
+                                        default:
                                                 break;
                                     }
 
                                 } while (carMenuOption != 0);
+                                break;
+                        case 3:
+                                int rentMenuOption = 1;
+                                do
+                                {
+                                        Console.WriteLine("\n####### RENT A CAR #######");
+                                        Console.WriteLine("\nMenu:");
+                                        Console.Write("\n[1] Quotation\n[2] Rent\n[3] Find Contracts\n[4] Return a Car\n[0] Return to main menu");
+                                        Console.Write("\n\nChoose an option: ");
+                                        rentMenuOption = int.Parse(Console.ReadLine());
+                                        rentMenuOption = ValidateOption(rentMenuOption, 4);
+
+                                        switch (rentMenuOption)
+                                        {
+                                               
+                                        }
+
+                                } while (rentMenuOption != 0);
                                 break;
                 }
         }
