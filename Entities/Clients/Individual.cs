@@ -40,7 +40,7 @@ namespace CS_Rental_Service.Entities.Clients
                 case CarCategory.Special:
                     client.LoyaltyPoints += 50;
                     break;
-                case CarCategory.Suv:
+                case CarCategory.SUV:
                     client.LoyaltyPoints += 80;
                     break;
                 case CarCategory.Executive:

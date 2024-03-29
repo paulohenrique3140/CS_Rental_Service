@@ -11,136 +11,165 @@ using System.Net.Mail;
 
 namespace CS_Rental_Service
 {
-        class Program
+  class Program
+  {
+    private static void Main(string[] args)
+    {
+      Car_Register carRegister = new Car_Register("Car");
+      Client_Register clientRegister = new Client_Register("Client");
+      Individual individualClient = new Individual();
+      Company companyClient = new Company();
+      Car car = new Car();
+      Rental companyRental = new Company_Rental();
+      Rental individualRental = new Individual_Rental();
+      DateTime now = DateTime.Now;
+
+     int mainMenuOption = 1;
+
+     do
+     {
+        try
         {
-                private static void Main(string[] args)
+                Console.WriteLine("\n####### WELCOME TO CAR RENTAL SERVICE #######");
+                Console.WriteLine("\nMenu:");
+                Console.Write("\n[1] Client Register\n[2] Car Register\n[3] Rent a Car\n[0] Exit");
+                Console.Write("\n\nChoose an option: ");
+                mainMenuOption = int.Parse(Console.ReadLine());
+                mainMenuOption = ValidateOption(mainMenuOption, 3);
+
+                switch (mainMenuOption)
                 {
-                        Car_Register carRegister = new Car_Register("Car");
-                        Client_Register clientRegister = new Client_Register("Client");
-                        Individual individualClient = new Individual();
-                        Company companyClient = new Company();
-                        Rental companyRental = new Company_Rental();
-                        Rental individualRental = new Individual_Rental();
-                        DateTime now = DateTime.Now;
-
-                        int mainMenuOption = 1;
-
-                        do
-                        {
-                                try
+                        case 1:
+                                int clientMenuOption = 1;
+                                do
                                 {
-                                        Console.WriteLine("\n####### WELCOME TO CAR RENTAL SERVICE #######");
+                                        Console.WriteLine("\n####### CLIENT SESSION #######");
                                         Console.WriteLine("\nMenu:");
-                                        Console.Write("\n[1] Client Register\n[2] Car Register\n[3] Rent a Car\n[0] Exit");
+                                        Console.Write("\n[1] Client Registration\n[2] Client Removal\n[3] Client search \n[4] Show Client List\n[0] Return to main menu");
                                         Console.Write("\n\nChoose an option: ");
-                                        mainMenuOption = int.Parse(Console.ReadLine());
-                                        mainMenuOption = ValidateOption(mainMenuOption, 3);
+                                        clientMenuOption = int.Parse(Console.ReadLine());
+                                        clientMenuOption = ValidateOption(clientMenuOption, 4);
 
-                                        switch (mainMenuOption)
+                                        switch (clientMenuOption)
                                         {
                                                 case 1:
-                                                        int clientMenuOption = 1;
-                                                        do
+                                                        Console.WriteLine("\n### CLIENT REGISTRATION ###");
+                                                        Console.Write("\nDo you'll registrate a company or a individual client? [c / i]: ");
+                                                        char ci = char.Parse(Console.ReadLine().ToLower());
+                                                        ci = ValidateChar(ci);
+                                                        Console.Write("\nID: ");
+                                                        int id = int.Parse(Console.ReadLine());
+                                                        Console.Write("\nName: ");
+                                                        string name = Console.ReadLine();
+                                                        Console.Write("\nPhonne: ");
+                                                        string phonne = Console.ReadLine();
+                                                        Console.Write("\nEmail: ");
+                                                        string email = Console.ReadLine();
+                                                        if (ci == 'c')
                                                         {
-                                                                Console.WriteLine("\n####### CLIENT SESSION #######");
-                                                                Console.WriteLine("\nMenu:");
-                                                                Console.Write("\n[1] Client Registration\n[2] Client Removal\n[3] Client search \n[4] Show Client List\n[0] Return to main menu");
-                                                                Console.Write("\n\nChoose an option: ");
-                                                                clientMenuOption = int.Parse(Console.ReadLine());
-                                                                clientMenuOption = ValidateOption(clientMenuOption, 4);
-
-                                                                switch (clientMenuOption)
-                                                                {
-                                                                        case 1:
-                                                                                Console.WriteLine("\n### CLIENT REGISTRATION ###");
-                                                                                Console.Write("\nDo you'll registrate a company or a individual client? [c / i]: ");
-                                                                                char ci = char.Parse(Console.ReadLine().ToLower());
-                                                                                ci = ValidateChar(ci);
-                                                                                Console.Write("\nID: ");
-                                                                                int id = int.Parse(Console.ReadLine());
-                                                                                Console.Write("\nName: ");
-                                                                                string name = Console.ReadLine();
-                                                                                Console.Write("\nPhonne ");
-                                                                                string phonne = Console.ReadLine();
-                                                                                Console.Write("\nEmail: ");
-                                                                                string email = Console.ReadLine();
-                                                                                if (ci == 'c')
-                                                                                {
-                                                                                        Console.Write("\nCNPJ: ");
-                                                                                        string cnpj = Console.ReadLine();
-                                                                                        companyClient = new Company(id, name, phonne, email, clientRegister, cnpj);
-                                                                                        clientRegister.AddClient(companyClient);
-                                                                                        Console.WriteLine(clientRegister);
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                        Console.Write("\nCPF: ");
-                                                                                        string cpf = Console.ReadLine();
-                                                                                        individualClient = new Individual(id, name, phonne, email, clientRegister, cpf);
-                                                                                        clientRegister.AddClient(individualClient);
-                                                                                        Console.WriteLine(clientRegister);
-                                                                                }
-                                                                                break;
-
-                                                                        case 2:
-                                                                                Console.WriteLine("\n### CLIENT REMOVAL ###");
-                                                                                Console.Write("\nEnter the client ID to remove: ");
-                                                                                int idRemoval = int.Parse(Console.ReadLine());
-                                                                                Console.Write("\nClient i or client c? [i / c]: ");
-                                                                                char ciRemoval = char.Parse(Console.ReadLine());
-                                                                                ciRemoval = ValidateChar(ciRemoval);
-                                                                                if (ciRemoval == 'c')
-                                                                                {
-                                                                                        clientRegister.RemoveClient(idRemoval, ContractType.Company);
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                        clientRegister.RemoveClient(idRemoval, ContractType.Individual);
-                                                                                }
-                                                                                break;
-
-                                                                        case 3:
-                                                                                Console.WriteLine("\n### CLIENT SEARCH ###");
-                                                                                Console.Write("\nEnter the client ID: ");
-                                                                                int idSearch = int.Parse(Console.ReadLine());
-                                                                                Console.Write("\nClient i or client c? [i / c]");
-                                                                                char ciSearch = char.Parse(Console.ReadLine());
-                                                                                ciSearch = ValidateChar(ciSearch);
-                                                                                if (ciSearch == 'c')
-                                                                                {
-                                                                                        Console.WriteLine(clientRegister.findById(idSearch, ContractType.Company));
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                        Console.WriteLine(clientRegister.findById(idSearch, ContractType.Individual));
-                                                                                }
-                                                                                break;
-                                                                        case 4:
-                                                                                Console.WriteLine("\n### CLIENT LIST ###");
-                                                                                Console.WriteLine("\n" + clientRegister);
-                                                                                break;
-                                                                }
-
-                                                        } while (clientMenuOption != 0);
+                                                                Console.Write("\nCNPJ: ");
+                                                                string cnpj = Console.ReadLine();
+                                                                companyClient = new Company(id, name, phonne, email, clientRegister, cnpj);
+                                                                clientRegister.AddClient(companyClient);
+                                                                Console.WriteLine(clientRegister);
+                                                        }
+                                                        else
+                                                        {
+                                                                Console.Write("\nCPF: ");
+                                                                string cpf = Console.ReadLine();
+                                                                individualClient = new Individual(id, name, phonne, email, clientRegister, cpf);
+                                                                clientRegister.AddClient(individualClient);
+                                                                Console.WriteLine(clientRegister);
+                                                        }
                                                         break;
+
                                                 case 2:
+                                                        Console.WriteLine("\n### CLIENT REMOVAL ###");
+                                                        Console.Write("\nEnter the client ID to remove: ");
+                                                        int idRemoval = int.Parse(Console.ReadLine());
+                                                        Console.Write("\nClient i or client c? [i / c]: ");
+                                                        char ciRemoval = char.Parse(Console.ReadLine());
+                                                        ciRemoval = ValidateChar(ciRemoval);
+                                                        if (ciRemoval == 'c')
+                                                        {
+                                                                clientRegister.RemoveClient(idRemoval, ContractType.Company);
+                                                        }
+                                                        else
+                                                        {
+                                                                clientRegister.RemoveClient(idRemoval, ContractType.Individual);
+                                                        }
+                                                        break;
+
+                                                case 3:
+                                                        Console.WriteLine("\n### CLIENT SEARCH ###");
+                                                        Console.Write("\nEnter the client ID: ");
+                                                        int idSearch = int.Parse(Console.ReadLine());
+                                                        Console.Write("\nClient i or client c? [i / c]");
+                                                        char ciSearch = char.Parse(Console.ReadLine());
+                                                        ciSearch = ValidateChar(ciSearch);
+                                                        if (ciSearch == 'c')
+                                                        {
+                                                                Console.WriteLine(clientRegister.findById(idSearch, ContractType.Company));
+                                                        }
+                                                        else
+                                                        {
+                                                                Console.WriteLine(clientRegister.findById(idSearch, ContractType.Individual));
+                                                        }
+                                                        break;
+                                                case 4:
+                                                        Console.WriteLine("\n### CLIENT LIST ###");
+                                                        Console.WriteLine("\n" + clientRegister);
                                                         break;
                                         }
-                                }
-                                catch (DomainException e)
-                                {
-                                        Console.WriteLine("\nError! " + e.Message);
-                                }
-                                catch (FormatException)
-                                {
-                                        Console.WriteLine("\nError! You entered the incorrect data type for the requested field. Please try again.");
-                                }
-                                catch (SystemException e)
-                                {
-                                        Console.WriteLine("\nError! " + e.Message);
-                                }
 
-                        } while (mainMenuOption != 0);
+                                } while (clientMenuOption != 0);
+                                break;
+                        case 2:
+                                int carMenuOption = 1;
+                                do
+                                {
+                                    Console.WriteLine("\n####### CAR SESSION #######");
+                                    Console.WriteLine("\nMenu:");
+                                    Console.Write("\n[1] Car Registration\n[2] Car Removal\n[3] Car search by ID\n[4] Car Seach by Model\n[5] Show Car List\n[0] Return to main menu");
+                                    Console.Write("\n\nChoose an option: ");
+                                    carMenuOption = int.Parse(Console.ReadLine());
+                                    carMenuOption = ValidateOption(carMenuOption, 5);
+
+                                    switch(carMenuOption)
+                                    {
+                                        case 1:
+                                                Console.WriteLine("\n### CAR REGISTRATION ###");
+                                                Console.Write("\nCar License Plate: ");
+                                                string licensePlate = Console.ReadLine();
+                                                Console.Write("\nModel: ");
+                                                string model = Console.ReadLine();
+                                                Console.Write("\nCategory [Economic / Intermediary / Special / SUV / Excutive]: ");
+                                                CarCategory category = Enum.Parse<CarCategory>(Console.ReadLine());
+                                                Console.Write("\nRate: ");
+                                                double rate = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
+                                                car = new Car(licensePlate, model, category, rate, true);
+                                                carRegister.AddCar(car);
+                                                break;
+                                    }
+
+                                } while (carMenuOption != 0);
+                                break;
+                }
+        }
+        catch (DomainException e)
+        {
+                Console.WriteLine("\nError! " + e.Message);
+        }
+        catch (FormatException)
+        {
+                Console.WriteLine("\nError! You entered the incorrect data type for the requested field. Please try again.");
+        }
+        catch (SystemException e)
+        {
+                Console.WriteLine("\nError! " + e.Message);
+        }
+
+      } while (mainMenuOption != 0);
 
 
 

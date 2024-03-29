@@ -5,7 +5,7 @@ namespace CS_Rental_Service.Entities.Enums
         Economic = 0,
         Intermediary = 1,
         Special = 2,
-        Suv = 3,
+        SUV = 3,
         Executive = 4
     }
 }
