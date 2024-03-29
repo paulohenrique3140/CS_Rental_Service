@@ -5,7 +5,6 @@ using CS_Rental_Service.Entities.Clients;
 using CS_Rental_Service.Entities;
 using CS_Rental_Service.Entities.Registers;
 using System.Text;
-using System.Diagnostics.Contracts;
 
 namespace CS_Rental_Service.Entities.Rentals
 {
@@ -93,9 +92,9 @@ namespace CS_Rental_Service.Entities.Rentals
             sb.AppendLine("\nContract Number: " + ContractNumber);
             sb.AppendLine("Car: " + CarLicensePlate);
             sb.AppendLine("Client ID: " + ClientId);
-            sb.AppendLine("Contract Date: " + ContractDate);
-            sb.AppendLine("Picukp Date: " + PickUp);
-            sb.AppendLine("Return Date: " + ReturnCar);
+            sb.AppendLine("Contract Date: " + ContractDate.ToString("dd/MM/yyyy hh:mm:ss tt"));
+            sb.AppendLine("Picukp Date: " + PickUp.ToString("dd/MM/yyyy hh:mm:ss tt"));
+            sb.AppendLine("Return Date: " + ReturnCar.ToString("dd/MM/yyyy hh:mm:ss tt"));
             sb.AppendLine("Form Of Payment: " + FormOfPayment);
             sb.AppendLine("Contract Status: " + Status);
             sb.AppendLine("Contract Type: " + Type);
