@@ -9,17 +9,16 @@ namespace CS_Rental_Service.Entities.Clients
     class Individual : Client
     {
         public string Cpf { get; set; }
-        public string Name { get; set; }
+        
         public int LoyaltyPoints { get; set; }
 
         public Individual()
         { }
 
-        public Individual(int id, string phonne, string email, string cpf, string name, int loyaltyPoints) : base(id, phonne, email)
+        public Individual(int id, string name, string phonne, string email, Client_Register clientRegister, string cpf) : base(id, name, phonne, email, clientRegister)
         {
             Cpf = cpf;
-            Name = name;
-            LoyaltyPoints = loyaltyPoints;
+            LoyaltyPoints = 0;
         }
         
         
@@ -56,7 +55,6 @@ namespace CS_Rental_Service.Entities.Clients
         {
             return base.ToString()
                   + " | CPF: " + Cpf
-                  + " | Name: " + Name
                   + " | Loyalty Points: " + LoyaltyPoints;
         }
     }

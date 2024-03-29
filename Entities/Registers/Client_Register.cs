@@ -15,13 +15,13 @@ namespace CS_Rental_Service.Entities.Registers
         public List<Client> ClientList { get; set; }
 
         public Client_Register()
-        {}
+        { }
         public Client_Register(string registerType) : base(registerType)
         {
             ClientList = new List<Client>();
         }
 
-        
+
         public void AddClient(Client client)
         {
             ClientList.Add(client);
@@ -34,41 +34,52 @@ namespace CS_Rental_Service.Entities.Registers
 
         public Client findById(int id, ContractType type)
         {
-           Client findedClient = new Individual();
+            Client findedClient = new Individual();
 
-           foreach(Client client in ClientList)
-           {
-             if(client.Id == id)
-             {
-                if(type == ContractType.Individual)
+            foreach (Client client in ClientList)
+            {
+                if (client.Id == id)
                 {
-                    findedClient = client;
+                    if (type == ContractType.Individual)
+                    {
+                        findedClient = client;
+                    }
+                    else
+                    {
+                        findedClient = (Company)client;
+                    }
                 }
-                else 
-                {
-                    findedClient = (Company)client;
-                }
-             }
-           }
-           if (findedClient.Id == 0)
-           {
-            throw new DomainException("The customer with the entered ID was not found. Please try again!");
-           }
-           return findedClient;
+            }
+            if (findedClient.Id == 0)
+            {
+                throw new DomainException("The customer with the entered ID was not found. Please try again!");
+            }
+            return findedClient;
         }
-      
+
+        public bool IsThereAClient(int id)
+        {
+            foreach (Client client in ClientList)
+            {
+                if (client.Id == id)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         public Rental findContract(int contractNumber, ContractType type)
         {
             Rental findedRental = new Individual_Rental();
 
-            foreach(Client client in ClientList)
+            foreach (Client client in ClientList)
             {
-                foreach(Rental rental in client.Contracts)
+                foreach (Rental rental in client.Contracts)
                 {
-                    if(rental.ContractNumber == contractNumber)
+                    if (rental.ContractNumber == contractNumber)
                     {
-                        if(type == ContractType.Individual)
+                        if (type == ContractType.Individual)
                         {
                             findedRental = rental;
                         }
@@ -89,11 +100,11 @@ namespace CS_Rental_Service.Entities.Registers
 
         public bool IsThereAContract(int contractNumber)
         {
-            foreach(Client client in ClientList)
+            foreach (Client client in ClientList)
             {
-                foreach(Rental rental in client.Contracts)
+                foreach (Rental rental in client.Contracts)
                 {
-                    if(rental.ContractNumber == contractNumber)
+                    if (rental.ContractNumber == contractNumber)
                     {
                         return true;
                     }
@@ -109,7 +120,7 @@ namespace CS_Rental_Service.Entities.Registers
 
         public void ReturnCar(int contractNumber, ContractType type, Car_Register car_register)
         {
-            
+
             findContract(contractNumber, type).Status = ContractStatus.Closed;
 
             car_register.FindByLicensePlate(findContract(contractNumber, type).CarLicensePlate).Availability = true;
@@ -119,7 +130,7 @@ namespace CS_Rental_Service.Entities.Registers
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            foreach(Client client in ClientList)
+            foreach (Client client in ClientList)
             {
                 sb.AppendLine(client.ToString());
             }
