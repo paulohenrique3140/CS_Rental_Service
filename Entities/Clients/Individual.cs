@@ -27,7 +27,7 @@ namespace CS_Rental_Service.Entities.Clients
         {
             base.AddContract(rental, client_register, car_register);            
             
-            Individual client = (Individual)client_register.FindById(rental.ClientId);            
+        Individual client = (Individual)client_register.FindById(rental.ClientId    );            
             
             switch (car_register.FindByLicensePlate(rental.CarLicensePlate).Category)
             {
