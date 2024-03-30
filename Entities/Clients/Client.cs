@@ -37,11 +37,11 @@ namespace CS_Rental_Service.Entities.Clients
         
         public virtual void AddContract(Rental rental, Client_Register client_register, Car_Register car_register)
         {
-            client_register.findById(rental.ClientId, rental.Type).Contracts.Add(rental);
+            client_register.FindById(rental.ClientId).Contracts.Add(rental);
 
             car_register.FindByLicensePlate(rental.CarLicensePlate).Availability = false;
             
-            client_register.UpdateContractStatus(rental.ContractNumber, ContractStatus.Open, rental.Type);
+            client_register.UpdateContractStatus(rental.ContractNumber, ContractStatus.Open);
         }
 
         public override string ToString()

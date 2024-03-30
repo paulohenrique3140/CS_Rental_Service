@@ -27,12 +27,12 @@ namespace CS_Rental_Service.Entities.Registers
             ClientList.Add(client);
         }
 
-        public void RemoveClient(int id, ContractType type)
+        public void RemoveClient(int id)
         {
-            ClientList.Remove(findById(id, type));
+            ClientList.Remove(FindById(id));
         }
 
-        public Client findById(int id, ContractType type)
+        public Client FindById(int id)
         {
             Client findedClient = new Individual();
 
@@ -40,14 +40,7 @@ namespace CS_Rental_Service.Entities.Registers
             {
                 if (client.Id == id)
                 {
-                    if (type == ContractType.Individual)
-                    {
-                        findedClient = client;
-                    }
-                    else
-                    {
-                        findedClient = (Company)client;
-                    }
+                    findedClient = client;
                 }
             }
             if (findedClient.Id == 0)
@@ -69,7 +62,7 @@ namespace CS_Rental_Service.Entities.Registers
             return false;
         }
 
-        public Rental findContract(int contractNumber, ContractType type)
+        public Rental FindContract(int contractNumber)
         {
             Rental findedRental = new Individual_Rental();
 
@@ -79,14 +72,7 @@ namespace CS_Rental_Service.Entities.Registers
                 {
                     if (rental.ContractNumber == contractNumber)
                     {
-                        if (type == ContractType.Individual)
-                        {
-                            findedRental = rental;
-                        }
-                        else
-                        {
-                            findedRental = (Company_Rental)rental;
-                        }
+                        findedRental = rental;
                     }
                 }
             }
@@ -113,17 +99,17 @@ namespace CS_Rental_Service.Entities.Registers
             return false;
         }
 
-        public void UpdateContractStatus(int contractNumber, ContractStatus newStatus, ContractType type)
+        public void UpdateContractStatus(int contractNumber, ContractStatus newStatus)
         {
-            findContract(contractNumber, type).Status = newStatus;
+            FindContract(contractNumber).Status = newStatus;
         }
 
-        public void ReturnCar(int contractNumber, ContractType type, Car_Register car_register)
+        public void ReturnCar(int contractNumber, Car_Register car_register)
         {
 
-            findContract(contractNumber, type).Status = ContractStatus.Closed;
+            FindContract(contractNumber).Status = ContractStatus.Closed;
 
-            car_register.FindByLicensePlate(findContract(contractNumber, type).CarLicensePlate).Availability = true;
+            car_register.FindByLicensePlate(FindContract(contractNumber).CarLicensePlate).Availability = true;
         }
 
 

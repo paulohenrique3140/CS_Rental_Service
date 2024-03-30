@@ -44,7 +44,12 @@ namespace CS_Rental_Service.Entities.Rentals
             }
             CarLicensePlate = carLicensePlate;
             
-            if (clientRegister.findById(clientId, type) == null)
+            if (!registerCar.FindByLicensePlate(carLicensePlate).Availability)
+            {
+                throw new DomainException("The car is unavailable! Please choose another one");
+            }
+
+            if (clientRegister.FindById(clientId) == null)
             {
                 throw new DomainException("There is no client with this ID. Try again.");
             }
